@@ -1,0 +1,42 @@
+services:
+  apigateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "5000:8080"
+    depends_on:
+      - filestoring
+      - analysis
+
+  filestoring:
+    build:
+      context: .
+      dockerfile: FileStoringService/Dockerfile
+    ports:
+      - "5001:8080"
+
+  analysis:
+    build:
+      context: .
+      dockerfile: FileAnalysisService/Dockerfile
+    ports:
+      - "5002:8080"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: filedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+
