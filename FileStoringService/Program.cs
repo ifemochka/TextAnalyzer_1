@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "File Storing Service", Version = "v1" });
 
-    // Поддержка загрузки файлов
+   
     c.OperationFilter<FileUploadOperationFilter>();
 });
 
